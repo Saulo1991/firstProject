@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja Virtual</title>
+<style>
+    * {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    #produtos {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 2%;
+        display: flex;
+    }
+    #carrinho {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 2%;
+        display: block;
+    }
+
+    .produto-single img {
+        max-width: 100%;
+    }
+
+    .produto-single {
+        text-align: center;
+        border: 10px solid white;
+    }
+
+    h1 {
+        color: white;
+        background-color: rgb(0, 217, 255);
+        text-align: center;
+        padding: 10px 3%;
+    }
+
+    .produto-single a {
+        text-decoration: none;
+        color: white;
+        background-color: rgb(11, 245, 11);
+        padding: 10px 3%;
+    }
+</style>
+</head>
+<body>
+    <h1>Loja do Saulo</h1>
+    <div id="produtos"></div>
+
+    <h1>Carrinho</h1>
+    <div id="carrinho"></div>
+</body>
+<script>
+    const items = [
+        {
+            id: 0,
+            nome: 'laptop',
+            img: 'programador.jpg',
+            quantidade: 0,
+            preco: 2134.99
+        },
+        {
+            id: 1,
+            nome: 'fone',
+            img: 'programador.jpg',
+            quantidade: 0,
+            preco: 140.99
+        },
+        {
+            id: 2,
+            nome: 'camiseta',
+            img: 'programador.jpg',
+            quantidade: 0,
+            preco: 99.99
+        },
+    ]
+
+    inicializarLoja = () => {
+        var containerProdutos = document.getElementById('produtos');
+        items.map((obj) => {
+            containerProdutos.innerHTML+= `
+                <div class='produto-single'>
+                    <img src='`+obj.img+`' />
+                    <p>`+obj.nome+`</p>
+                    <p>R$ `+obj.preco+`</p>
+                    <a key='`+obj.id+`' href='#'>Adicionar ao carrinho</a>
+                </div>
+            `
+        })
+    }
+    
+    inicializarLoja();
+
+    atualizarCarrinho = () => {
+        var containerCarrinho = document.getElementById('carrinho');
+        containerCarrinho.innerHTML = '';
+        items.map((obj) => {
+            if(obj.quantidade > 0) {
+            containerCarrinho.innerHTML+= `
+                <div class='info' style='text-align: center;'>
+                    <p style='float:left;'>Produto: `+obj.nome+`</p>
+                    <p style='float:right;'>Quantidade: `+obj.quantidade+`</p>
+                    <p style='display: inline-block'>Preço R$ `+(obj.preco * obj.quantidade).toFixed(2)+`</p>
+                    <div style='clear:both'</div>
+                </div>
+            `}
+        })
+    }
+
+    var links = document.getElementsByTagName('a');
+
+    for(var i = 0; i < links.length; i++) {
+        links[i].addEventListener('click', function() {
+            let key = this.getAttribute('key');
+            items[key].quantidade++;
+            items[key].preco *= 1;
+            atualizarCarrinho();
+            return false;
+        })
+    }
+</script>
+</html>
